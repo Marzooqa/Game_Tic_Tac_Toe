@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background-color: #000000 }
+        .container {
+            display: grid; grid-gap: 0.1rem;
+            grid-template-columns: 1fr 1fr 1fr;
+            width: 24rem; margin: auto
+        }
+        .box {
+            height: 7rem; background-color: #edb8fd;
+            color: black; font-size: 6rem;
+            text-align: center; cursor: pointer;
+        }
+        .heading { color: #feddbe; text-align: center }
+        .btn {
+            background-color: #fae4b1; color: black;
+            border: 0px; padding: 1rem; margin: auto;
+            font-weight: bold; cursor: pointer;
+        }
+        .btn:hover { background-color: #aac947 }
+        .reset-container { text-align: center }
+    </style>
+</head>
+<body>
+    <h1 class="heading">Tic Tac Toe</h1>
+    <h2 class="heading" id="player">Current Player: X</h2>
+    <div class="container" id="container">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+    <h2 class="heading" id="winner"></h2>
+    <div class="reset-container">
+        <button class="btn" id="reset">RESET</button>
+    </div>
+
+    <script>
+        let currentPlayer="X";
+        let boxes=document.querySelectorAll(".box");
+        let player=document.getElementById("player");
+        let winner=document.getElementById("winner");
+        let reset=document.getElementById("reset");
+
+        boxes.forEach(box=>box.addEventListener("click",()=>{
+            if(box.innerHTML==="" && winner.innerHTML==="")
+            box.innerHTML=currentPlayer;
+            else return;
+            currentPlayer=currentPlayer==="X"?"O":"X";
+            player.innerHTML=`Current Player: ${currentPlayer}`;
+            findWinner();
+        }));
+
+        function findWinner(){
+            let winnerStr=["012","345","678","036","147","258","048","246"];
+            for(let i of winnerStr){
+                let p1=boxes[i[0]].innerHTML;
+                let p2=boxes[i[1]].innerHTML;
+                let p3=boxes[i[2]].innerHTML;
+                if(p1===p2 && p2===p3 && p3!=""){
+                    winner.innerHTML=`Winner is ${p1}`;
+                    return;
+                }
+            }
+        }
+        reset.addEventListener("click",()=>{
+            boxes.forEach(box=>box.innerHTML="");
+            winner.innerHTML="";
+            currentPlayer="X";
+            player.innerHTML=`Current Player: ${currentPlayer}`;
+        })
+    </script>
+</body>
+</html>
